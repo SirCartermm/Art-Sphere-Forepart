@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
+// Initialize Stripe
 const stripePromise = loadStripe('your-publishable-key-from-stripe');
 
 const PurchaseForm = ({ artwork }) => {
@@ -16,25 +17,29 @@ const PurchaseForm = ({ artwork }) => {
 
     setLoading(true);
 
-    const { error, paymentIntent } = await stripe.confirmCardPayment(
-      'client-secret-from-your-backend',
-      {
-        payment_method: {
-          card: elements.getElement(CardElement),
-        },
+    try {
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        'client-secret-from-your-backend',
+        {
+          payment_method: {
+            card: elements.getElement(CardElement),
+          },
+        }
+      );
+
+      if (error) {
+        setMessage(error.message);
+      } else if (paymentIntent.status === 'succeeded') {
+        setMessage('Payment successful! Your order has been placed.');
+        // Optionally redirect to an order confirmation page or clear the form
+      } else {
+        setMessage('Payment failed. Please try again.');
       }
-    );
-
-    if (error) {
-      setMessage(error.message);
-    } else if (paymentIntent.status === 'succeeded') {
-      setMessage('Payment successful! Your order has been placed.');
-      // Optionally redirect to an order confirmation page or clear the form
-    } else {
-      setMessage('Payment failed. Please try again.');
+    } catch (error) {
+      setMessage('An unexpected error occurred. Please try again.');
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (

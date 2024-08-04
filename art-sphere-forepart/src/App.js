@@ -1,21 +1,22 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-router-dom';
-import { loadStripe } from '@stripe/stripe-js';
+import { BrowserRouter as Router, Route, Routes, useParams, useLocation } from 'react-router-dom';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import './styles.css';  // Import your consolidated CSS
+import { loadStripe } from '@stripe/stripe-js';
+import './components/App.css';
 
-// Stripe setup
+// Initialize Stripe
 const stripePromise = loadStripe('your-publishable-key-from-stripe');
 
 // Components
-const ArtworkDetail = ({ match }) => {
+const ArtworkDetail = () => {
+  const { artworkId } = useParams();
   const [artwork, setArtwork] = React.useState(null);
   const [showPurchaseForm, setShowPurchaseForm] = React.useState(false);
 
   React.useEffect(() => {
     const fetchArtwork = async () => {
       try {
-        const response = await fetch(`/api/artworks/${match.params.artworkId}`);
+        const response = await fetch(`/api/artworks/${artworkId}`);
         const data = await response.json();
         setArtwork(data.artwork);
       } catch (error) {
@@ -24,7 +25,7 @@ const ArtworkDetail = ({ match }) => {
     };
 
     fetchArtwork();
-  }, [match.params.artworkId]);
+  }, [artworkId]);
 
   const handlePurchaseClick = () => {
     setShowPurchaseForm(true);
@@ -39,7 +40,7 @@ const ArtworkDetail = ({ match }) => {
       <p>{artwork.description}</p>
       <p><strong>Price:</strong> ${artwork.price}</p>
       {showPurchaseForm ? (
-        <PurchaseForm artwork={artwork} />
+        <PurchaseFormWrapper artwork={artwork} />
       ) : (
         <button onClick={handlePurchaseClick}>Purchase</button>
       )}
@@ -59,24 +60,29 @@ const PurchaseForm = ({ artwork }) => {
 
     setLoading(true);
 
-    const { error, paymentIntent } = await stripe.confirmCardPayment(
-      'client-secret-from-your-backend',
-      {
-        payment_method: {
-          card: elements.getElement(CardElement),
-        },
+    try {
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        'client-secret-from-your-backend',
+        {
+          payment_method: {
+            card: elements.getElement(CardElement),
+          },
+        }
+      );
+
+      if (error) {
+        setMessage(error.message);
+      } else if (paymentIntent.status === 'succeeded') {
+        setMessage('Payment successful! Your order has been placed.');
+        // Optionally redirect to an order confirmation page or clear the form
+      } else {
+        setMessage('Payment failed. Please try again.');
       }
-    );
-
-    if (error) {
-      setMessage(error.message);
-    } else if (paymentIntent.status === 'succeeded') {
-      setMessage('Payment successful! Your order has been placed.');
-    } else {
-      setMessage('Payment failed. Please try again.');
+    } catch (error) {
+      setMessage('An unexpected error occurred. Please try again.');
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
@@ -92,6 +98,12 @@ const PurchaseForm = ({ artwork }) => {
     </div>
   );
 };
+
+const PurchaseFormWrapper = ({ artwork }) => (
+  <Elements stripe={stripePromise}>
+    <PurchaseForm artwork={artwork} />
+  </Elements>
+);
 
 const OrderConfirmation = () => {
   const { state } = useLocation();
@@ -148,13 +160,14 @@ const TrackOrders = () => {
   );
 };
 
-const DigitalCertificate = ({ match }) => {
+const DigitalCertificate = () => {
+  const { orderId } = useParams();
   const [certificate, setCertificate] = React.useState(null);
 
   React.useEffect(() => {
     const fetchCertificate = async () => {
       try {
-        const response = await fetch(`/api/orders/${match.params.orderId}`);
+        const response = await fetch(`/api/orders/${orderId}`);
         const data = await response.json();
         setCertificate(data.order);
       } catch (error) {
@@ -163,7 +176,7 @@ const DigitalCertificate = ({ match }) => {
     };
 
     fetchCertificate();
-  }, [match.params.orderId]);
+  }, [orderId]);
 
   if (!certificate) return <div>Loading...</div>;
 
@@ -181,16 +194,14 @@ const DigitalCertificate = ({ match }) => {
 // Main App Component
 const App = () => (
   <Router>
-    <Switch>
-      <Route path="/artworks/:artworkId" component={ArtworkDetail} />
-      <Route path="/order-confirmation" component={OrderConfirmation} />
-      <Route path="/track-orders" component={TrackOrders} />
-      <Route path="/certificates/:orderId" component={DigitalCertificate} />
+    <Routes>
+      <Route path="/artworks/:artworkId" element={<ArtworkDetail />} />
+      <Route path="/order-confirmation" element={<OrderConfirmation />} />
+      <Route path="/track-orders" element={<TrackOrders />} />
+      <Route path="/certificates/:orderId" element={<DigitalCertificate />} />
       {/* Add other routes here */}
-    </Switch>
+    </Routes>
   </Router>
 );
 
 export default App;
-
-// styles.css (Consolidated CSS styles for components)
