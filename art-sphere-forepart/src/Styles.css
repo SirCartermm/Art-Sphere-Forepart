@@ -1,0 +1,114 @@
+/* src/components/styles.css */
+
+/* General Styles for Artist Card */
+.artist-card {
+  border: 1px solid #ccc;
+  padding: 1em;
+  margin: 1em;
+  border-radius: 8px;
+}
+
+.artist-card button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.artist-card button:hover {
+  background-color: #0056b3;
+}
+
+/* Styles for Artwork Detail */
+.artwork-detail {
+  padding: 1em;
+}
+
+.artwork-detail img {
+  max-width: 100%;
+  height: auto;
+}
+
+.comment-form {
+  margin-top: 1em;
+}
+
+.comment-form textarea {
+  width: 100%;
+  height: 100px;
+}
+
+.comment-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.comment-list li {
+  border-bottom: 1px solid #ccc;
+  padding: 1em 0;
+}
+
+.comment-list p {
+  margin: 0.5em 0;
+}
+
+/* Styles for Tracking Orders */
+.track-orders {
+  padding: 1em;
+}
+
+.order-item {
+  border: 1px solid #ccc;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-radius: 8px;
+}
+
+.order-item a {
+  color: #007bff;
+}
+
+.order-item a:hover {
+  text-decoration: underline;
+}
+
+/* Styles for Digital Certificate */
+.digital-certificate {
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.digital-certificate p {
+  margin: 0.5em 0;
+}
+
+/* Styles for Purchase Form */
+.purchase-form {
+  margin-top: 1em;
+}
+
+.purchase-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.purchase-form button {
+  margin-top: 1em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.purchase-form button:disabled {
+  background-color: #ccc;
+}
+
+.purchase-form p {
+  margin-top: 1em;
+}
