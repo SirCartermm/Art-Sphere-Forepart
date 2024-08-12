@@ -1,4 +1,3 @@
-// src/components/Checkout.js
 import React, { useState, useContext } from 'react';
 import { CartContext } from '../context/CartContext';
 import './Checkout.css';
@@ -13,7 +12,7 @@ const Checkout = () => {
   });
 
   if (!cartItems) {
-    return <p>Loading...</p>; // Handle the case where context might not be available
+    return <p>Loading...</p>; 
   }
 
   const handleChange = (e) => {
@@ -25,7 +24,7 @@ const Checkout = () => {
   };
 
   const handleCheckout = () => {
-    // Handle the checkout process
+    
     console.log('Checking out with details:', paymentDetails, cartItems, totalAmount);
   };
 

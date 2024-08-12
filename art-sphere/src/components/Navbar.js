@@ -14,7 +14,7 @@ const Navbar = () => {
         <li><Link to="/contact">Contact</Link></li>
         <li><Link to="/about">About</Link></li>
         <li><Link to="/reviews">Reviews</Link></li>
-        <li><Link to="/notification">Notification</Link> </li>
+        {/* <li><Link to="/notification">Notification</Link> </li> */}
       </ul>
     </nav>
   );

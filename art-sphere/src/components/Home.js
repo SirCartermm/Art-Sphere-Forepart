@@ -1,12 +1,12 @@
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Import carousel styles
-import './Home.css'; // Import custom CSS file for Home component
-import Navbar from './Navbar'; // Import Navbar component
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; 
+import './Home.css'; 
+import Navbar from './Navbar'; 
 
 
 const Home = () => {
-  // Example images as data URIs (replace with your own image data)
+  
   const images = [
     "https://i.pinimg.com/564x/e0/4e/6f/e04e6f87fd0f8f2aaa14e6959fb8a033.jpg",
     "https://i.pinimg.com/564x/19/71/74/197174bbbb2244bd02f029f9ec601812.jpg",

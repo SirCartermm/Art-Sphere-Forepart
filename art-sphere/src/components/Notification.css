@@ -1,4 +1,4 @@
-
+/* 
 .notification {
     position: fixed;
     top: 20px;
@@ -16,6 +16,25 @@
     border: none;
     color: #721c24;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 15px;
+  }
+   */
+
+   .notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+  }
+  
+  .notification.fade-out {
+    opacity: 0;
   }
   

@@ -42,7 +42,7 @@ const AdminUserList = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    // Fetch users from the backend
+    
     axios.get('/api/users')
       .then(response => setUsers(response.data))
       .catch(error => console.error(error));

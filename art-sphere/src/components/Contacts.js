@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './Contacts.css'; // Make sure this path is correct
+import './Contacts.css'; 
 
 const Contact = ({ onContact }) => {
   const [name, setName] = useState('');
@@ -19,11 +19,11 @@ const Contact = ({ onContact }) => {
   return (
     <section className="contact" id="contact">
       <h1 className="heading">
-        <span>contact</span> us
+        <span>Contact</span> Us
       </h1>
       <div className="row">
         <form onSubmit={handleSubmit}>
-          <h3>get in touch</h3>
+          <h3>Get in touch</h3>
           <div className="inputBox">
             <span className="fas fa-user"></span>
             <input 

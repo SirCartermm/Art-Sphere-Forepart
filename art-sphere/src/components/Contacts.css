@@ -4,7 +4,7 @@
   background-size: cover;
   background-position: center;
   padding: 60px 20px;
-  color: #fff; /* Ensures text is readable on the background image */
+  color: #ecb7b7; 
 }
 
 .contact .heading {
@@ -19,7 +19,7 @@
 }
 
 .contact .inputBox span {
-  color: #1f1e1e; /* Icon color */
+  color: #1f1e1e; 
 }
 
 .contact .inputBox input,
@@ -41,7 +41,7 @@
   display: block;
   width: 100%;
   padding: 15px;
-  background-color: #1a1919;
+  background-color: #df3535;
   color: #333;
   border: none;
   border-radius: 5px;

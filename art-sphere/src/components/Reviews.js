@@ -1,9 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaStar } from 'react-icons/fa';
 import './Review.css';
-
 
 const api = axios.create({
   baseURL: 'http://127.0.0.1:5555'
@@ -12,25 +10,24 @@ const api = axios.create({
 function Reviews() {
   const [reviews, setReviews] = useState([]);
   const [users, setUsers] = useState([]);
-  const [mechanics, setMechanics] = useState([]);
+  const [mechanics, setArtists] = useState([]);
   const [newReview, setNewReview] = useState({
     user_id: '',
-    mechanic_id: '',
+    artist_id: '',
     rating: 0,
     feedback: ''
   });
 
   useEffect(() => {
-    
     fetchReviews();
     fetchUsers();
-    fetchMechanics();
+    fetchArtists();
   }, []);
 
   const fetchReviews = () => {
     api.get('/reviews')
       .then(response => {
-        console.log('Fetched reviews:', response.data); 
+        console.log('Fetched reviews:', response.data);
         setReviews(response.data);
       })
       .catch(error => console.error('Error fetching reviews:', error));
@@ -39,23 +36,23 @@ function Reviews() {
   const fetchUsers = () => {
     api.get('/users')
       .then(response => {
-        console.log('Fetched users:', response.data); 
+        console.log('Fetched users:', response.data);
         setUsers(response.data);
       })
       .catch(error => console.error('Error fetching users:', error));
   };
 
-  const fetchMechanics = () => {
-    api.get('/mechanics')
+  const fetchArtists = () => {
+    api.get('/artists')
       .then(response => {
-        console.log('Fetched artwork:', response.data); 
-        setMechanics(response.data);
+        console.log('Fetched artists:', response.data);
+        setArtists(response.data);
       })
-      .catch(error => console.error('Error fetching artworks:', error));
+      .catch(error => console.error('Error fetching artists:', error));
   };
 
   const getUserById = (id) => users.find(user => user.id === id);
-  const getMechanicById = (id) => mechanics.find(mechanic => mechanic.id === id);
+  const getArtistById = (id) => mechanics.find(artist => artist.id === id); // Use `mechanics` here
 
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, index) => (
@@ -74,14 +71,14 @@ function Reviews() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Submitting review:', newReview); // Log the review being submitted
+    console.log('Submitting review:', newReview);
     api.post('/reviews', newReview)
       .then(response => {
-        console.log('Added review:', response.data); // Log the added review
+        console.log('Added review:', response.data);
         setReviews([...reviews, response.data]);
         setNewReview({
           user_id: '',
-          mechanic_id: '',
+          artist_id: '',
           rating: 0,
           feedback: ''
         });
@@ -105,12 +102,12 @@ function Reviews() {
           </select>
         </label>
         <label>
-          Mechanic:
-          <select name="mechanic_id" value={newReview.mechanic_id} onChange={handleInputChange}>
-            <option value="">Select Mechanic</option>
-            {mechanics.map(mechanic => (
-              <option key={mechanic.id} value={mechanic.id}>
-                {mechanic.first_name} {mechanic.last_name}
+          Artist:
+          <select name="artist_id" value={newReview.artist_id} onChange={handleInputChange}>
+            <option value="">Select Artist</option>
+            {mechanics.map(artist => (
+              <option key={artist.id} value={artist.id}>
+                {artist.first_name} {artist.last_name}
               </option>
             ))}
           </select>
@@ -139,8 +136,8 @@ function Reviews() {
       </form>
       <div className="review-cards">
         {reviews.map(review => {
-          const reviewer = getUserById(review.user_id);
-          const mechanic = getMechanicById(review.mechanic_id);
+          const user = getUserById(review.user_id);
+          const artist = getArtistById(review.artist_id);
 
           return (
             <div className="review-card" key={review.id}>
@@ -149,8 +146,8 @@ function Reviews() {
                 <div className="stars">{renderStars(review.rating)}</div>
               </div>
               <p><strong>Feedback:</strong> {review.feedback}</p>
-              <p><strong>Reviewer:</strong> {reviewer ? `${reviewer.first_name} ${reviewer.last_name} `: 'Loading...'}</p>
-              <p><strong>Artist:</strong> {mechanic ? `${mechanic.first_name} ${mechanic.last_name}` : 'Loading...'}</p>
+              <p><strong>User:</strong> {user ? `${user.first_name} ${user.last_name}` : 'Loading...'}</p>
+              <p><strong>Artist:</strong> {artist ? `${artist.first_name} ${artist.last_name}` : 'Loading...'}</p>
             </div>
           );
         })}
