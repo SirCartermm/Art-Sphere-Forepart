@@ -1,0 +1,35 @@
+.artwork-detail {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .artwork-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .artwork-info {
+    text-align: left;
+  }
+  
+  .artwork-info p {
+    margin: 10px 0;
+  }
+  
+  .purchase-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .purchase-button:hover {
+    background-color: #0056b3;
+  }
+  

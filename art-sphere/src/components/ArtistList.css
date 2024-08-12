@@ -1,0 +1,30 @@
+.artist-list {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 500px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .artist-list h2 {
+    margin-bottom: 20px;
+  }
+  
+  .artist-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .artist-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .artist-list li:last-child {
+    border-bottom: none;
+  }
+  
+  .artist-list p {
+    font-style: italic;
+  }
